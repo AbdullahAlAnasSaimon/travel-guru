@@ -4,9 +4,9 @@ import Logo from '../../images/logo.png';
 
 const Header = () => {
   return (
-    <div>
+    <div className='sticky top-0 bg-gray-100/50 backdrop-blur-sm border-b-2 border-gray-100'>
       <div className='flex justify-between items-center w-10/12 mx-auto py-3'>
-        <div className='w-32'>
+        <div className='w-24'>
           <Link to='/home'><img src={Logo} alt="company-logo" /></Link>
         </div>
         <nav>

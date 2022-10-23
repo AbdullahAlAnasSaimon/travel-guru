@@ -1,12 +1,37 @@
-import React from 'react';
+import React, { useContext, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import {FaFacebook, FaGithub} from 'react-icons/fa';
+import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
 const SignUp = () => {
+  const {user, setUser, createUser} = useContext(AuthContext);
+
+
+  const handleSignUp = event =>{
+    event.preventDefault();
+    const form = event.target;
+    const firstName = form.firstName.value;
+    const lastName = form.lastName.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const confirmPassword = form.confirmPassword.value;
+    console.log(firstName, lastName, email, password, confirmPassword);
+
+    createUser(email, password)
+    .then(result =>{
+      const user = result.user;
+      console.log(user);
+      setUser(user);
+      form.reset();
+    })
+    .catch(error => console.log(error))
+  }
+
   return (
-    <form className='w-4/12 mx-auto border-2 border-gray-300 p-8 my-5 rounded-lg'>
+    <form onSubmit={handleSignUp} className='w-4/12 mx-auto border-2 border-gray-300 p-8 my-5 rounded-lg'>
       <h2 className='text-3xl font-bold text-gray-700 mb-8'>Create An Account</h2>
+      
       <div className='my-5'>
         <input className='border-b-2 w-full p-2 focus:border-orange-500 outline-0 duration-200 ease-in-out' type="text" name='firstName' placeholder='First Name'/>
       </div>
@@ -20,7 +45,7 @@ const SignUp = () => {
         <input className='border-b-2 w-full p-2 focus:border-orange-500 outline-0 duration-200 ease-in-out' type="password" name='password' placeholder='Password' required/>
       </div>
       <div className='my-5'>
-        <input className='border-b-2 w-full p-2 focus:border-orange-500 outline-0 duration-200 ease-in-out' type="password" name='cnofirmPassword' placeholder='Confirm Password' required/>
+        <input className='border-b-2 w-full p-2 focus:border-orange-500 outline-0 duration-200 ease-in-out' type="password" name='confirmPassword' placeholder='Confirm Password' required/>
       </div>
       <button className='bg-orange-400 hover:bg-orange-500 py-3 w-full my-8 rounded-md font-semibold' type="submit">Sign Up</button>
       <p className='text-center'>Don't Have An Account? <Link to='/login' className='underline text-orange-400'>Log In</Link></p>
